@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from fastapi import FastAPI, Depends, status, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud.exceptions import UserAlreadyExist, UserError
 from schemas.user import UserCreateSchema, UserReadSchema
@@ -12,8 +12,8 @@ app = FastAPI()
 
 
 @app.get("/users", response_model=list[UserReadSchema])
-def read_users(db: Annotated[Session, Depends(get_db)]):
-    return get_all_users(db)
+async def read_users(db: Annotated[AsyncSession, Depends(get_db)]):
+    return await get_all_users(db)
 
 
 @app.post(
@@ -21,12 +21,12 @@ def read_users(db: Annotated[Session, Depends(get_db)]):
     response_model=UserReadSchema,
     status_code=status.HTTP_201_CREATED
 )
-def make_user(
+async def make_user(
     user_data: UserCreateSchema,
-    db: Annotated[Session, Depends(get_db)]
+    db: Annotated[AsyncSession, Depends(get_db)]
 ):
     try:
-        return create_user(db=db, user_data=user_data)
+        return await create_user(db=db, user_data=user_data)
     except UserAlreadyExist:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
