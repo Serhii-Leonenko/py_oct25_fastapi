@@ -4,3 +4,7 @@ class UserError(Exception):
 
 class UserAlreadyExist(UserError):
     pass
+
+
+class UserNotFound(UserError):
+    pass
