@@ -6,5 +6,21 @@ class UserAlreadyExist(UserError):
     pass
 
 
-class UserNotFound(UserError):
+class OwnerNotFoundError(Exception):
+    pass
+
+
+class ProjectNotFoundError(Exception):
+    pass
+
+
+class TaskNotFoundError(Exception):
+    pass
+
+
+class AssigneeNotFoundError(Exception):
+    pass
+
+
+class TaskAlreadyExist(Exception):
     pass

@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from crud.exceptions import UserNotFound
+from crud.exceptions import OwnerNotFoundError
 from models.project import Project
 from models.user import User
 from schemas.project import ProjectCreateSchema
@@ -12,7 +12,7 @@ async def _get_owner(db: AsyncSession, owner_id: int) -> User:
     owner = await db.get(User, owner_id)
 
     if not owner:
-        raise UserNotFound("Such owner does not exist")
+        raise OwnerNotFoundError("Such owner does not exist")
 
     return owner
 
@@ -36,7 +36,10 @@ async def get_projects(db: AsyncSession, owner_id: int | None = None) -> list[Pr
 async def create_project(db: AsyncSession, project_data: ProjectCreateSchema) -> Project:
     owner = await _get_owner(db, project_data.owner)
 
-    new_project = Project(**project_data.model_dump(exclude={"owner"}), owner=owner)
+    new_project = Project(
+        **project_data.model_dump(exclude={"owner"}),
+        owner=owner
+    )
     db.add(new_project)
     await db.commit()
     await db.refresh(new_project)
