@@ -32,7 +32,7 @@ class User(Base):
         cascade="all, delete-orphan"
     )
 
-    task: Mapped[list["Task"]] = relationship(
+    tasks: Mapped[list["Task"]] = relationship(
         secondary="task_assignees", back_populates="assignees"
     )
 

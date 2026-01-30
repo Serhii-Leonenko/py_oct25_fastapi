@@ -24,3 +24,7 @@ class AssigneeNotFoundError(Exception):
 
 class TaskAlreadyExist(Exception):
     pass
+
+
+class ProjectAlreadyExistError(Exception):
+    pass
