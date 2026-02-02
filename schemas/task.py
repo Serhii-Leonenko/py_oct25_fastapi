@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict
 
 from models.enums import TaskStatusEnum
+from schemas.project import ProjectReadSchema
 from schemas.user import UserReadSchema
 
 
@@ -27,3 +28,4 @@ class TaskReadSchema(TaskBaseSchema):
     id: int
     status: TaskStatusEnum
     assignees: list[UserReadSchema]
+    project: ProjectReadSchema

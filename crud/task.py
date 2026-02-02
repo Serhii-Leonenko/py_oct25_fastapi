@@ -81,14 +81,13 @@ async def create_task(
         )
 
     task = Task(
-        task_data.model_dump(exclude={"assignees", "project"}),
+        **task_data.model_dump(exclude={"assignees", "project"}),
         assignees=assignees,
         project=project,
         status=TaskStatusEnum.NEW,
     )
     db.add(task)
     await db.commit()
-    await db.refresh(task)
 
     return task
 

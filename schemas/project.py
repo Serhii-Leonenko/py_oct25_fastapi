@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, ConfigDict
 
-from schemas.task import TaskReadSchema
+# from schemas.task import TaskReadSchema
 from schemas.user import UserReadSchema
 
 
@@ -17,4 +17,4 @@ class ProjectReadSchema(BaseModel):
     name: str
     description: str | None = None
     owner: UserReadSchema
-    tasks: list[TaskReadSchema]
+    # tasks: list[TaskReadSchema]
